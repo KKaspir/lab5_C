@@ -8,7 +8,7 @@ private:
     std::string subject;
     double score;
     std::string date;
-    double score;
+
 
 public:
     Grade(const std::string& subj, double scr, const std::string& dt)
@@ -21,8 +21,8 @@ public:
     }
 
     Grade(double score) : score(score) {
-        if (score < 0.0) {
-            throw std::invalid_argument("Оценка не может быть отрицательной");
+        if ((score < 0.0) || (score > 100.0)) {
+            throw std::invalid_argument("Оценка Должна быть в диапазоне [0; 100]!");
         }
     }
 
@@ -146,6 +146,26 @@ public:
         }
     }
 
+    void inputGrades() {
+        try {
+            int numGrades;
+            std::cout << "Введите количество оценок: ";
+            std::cin >> numGrades;
+
+            for (int i = 0; i < numGrades; ++i) {
+                double score;
+                std::cout << "Введите оценку #" << i + 1 << ": ";
+                std::cin >> score;
+
+                // Используем инструкцию throw для инициализации исключения при некорректной оценке
+                grades.push_back(Grade(score));
+            }
+        }
+        catch (const std::exception& e) {
+            // Перехватываем исключение и выводим сообщение об ошибке
+            std::cerr << "Ошибка: " << e.what() << std::endl;
+        }
+    }
 };
 
 
@@ -348,3 +368,17 @@ public:
     }
 };
 
+int main() {
+    setlocale(LC_ALL, "Russian");
+    Student student1("Иван", "Иванов", "2000-01-01", "12345", "VAN@example.com", { });
+    try {
+        
+        student1.inputGrades();
+    }
+    catch (const std::exception& e) {
+        // Перехватываем исключение и выводим сообщение об ошибке
+        std::cerr << "Ошибка в главной части программы: " << e.what() << std::endl;
+    }
+
+    return 0;
+}
