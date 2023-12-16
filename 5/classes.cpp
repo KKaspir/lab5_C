@@ -370,14 +370,39 @@ public:
 
 int main() {
     setlocale(LC_ALL, "Russian");
-    Student student1("Иван", "Иванов", "2000-01-01", "12345", "VAN@example.com", { });
+
     try {
-        
-        student1.inputGrades();
+        Student student("Иван", "Иванов", "2000-01-01", "12345", "VAN@example.com", { });
+        student.inputGrades();
     }
     catch (const std::exception& e) {
         // Перехватываем исключение и выводим сообщение об ошибке
         std::cerr << "Ошибка в главной части программы: " << e.what() << std::endl;
+    }
+
+    // Создание одномерного массива оценок
+    Grade gradeArray[] = {
+        Grade("Биология", 4.0, "05.01.2023"),
+        Grade("Химия", 4.5, "06.01.2023"),
+        Grade("География", 3.5, "07.01.2023")
+    };
+
+    std::cout << "\nОдномерный массив оценок:" << std::endl;
+    for (const Grade& g : gradeArray) {
+        g.print();
+    }
+
+    // Создание двумерного массива оценок
+    Grade grade2DArray[2][2] = {
+        {Grade("Математика", 4.5, "01.01.2023"), Grade("Физика", 5.0, "02.01.2023")},
+        {Grade("История", 4.0, "03.01.2023"), Grade("Литература", 4.5, "04.01.2023")}
+    };
+
+    std::cout << "\nДвумерный массив оценок:" << std::endl;
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < 2; ++j) {
+            grade2DArray[i][j].print();
+        }
     }
 
     return 0;
